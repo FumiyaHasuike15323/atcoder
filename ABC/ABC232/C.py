@@ -1,27 +1,27 @@
+import itertools
 n,m = map(int,input().split())
-takahashi = [[] for i in range(n)]
-aoki = [[] for i in range(n)]
-len_taka =[]
-len_aoki = []
+takahashi = [[-1]*n for i in range(n)]
+aoki = [[-1]*n for i in range(n)]
 for i in range(m):
     a,b = map(int,input().split())
     a -= 1
     b -= 1
-    takahashi[a].append(b)
-    takahashi[b].append(a)
+    takahashi[a][b] = 1
+    takahashi[b][a] = 1
 for i in range(m):
     a,b = map(int,input().split())
     a -= 1
     b -= 1
-    aoki[a].append(b)
-    aoki[b].append(a)
-for i in range(len(takahashi)):
-    len_taka.append(len(takahashi[i]))
-    len_aoki.append(len(aoki[i]))
-len_taka.sort()
-len_aoki.sort()
-for i in range(len(len_taka)):
-    if len_taka[i] != len_aoki[i]:
-        print('No')
+    aoki[a][b] = 1
+    aoki[b][a] = 1
+
+for ele in list(itertools.permutations(range(n))):
+    ans = True
+    for j in range(n):
+        for k in range(n):
+            if takahashi[j][k] != aoki[ele[j]][ele[k]]:
+                ans = False
+    if ans == True:
+        print('Yes')
         exit()
-print('Yes')
+print('No')
